@@ -1,42 +1,42 @@
 class MinStack {
 public:
     /** initialize your data structure here. */
-    MinStack(): minVal(INT_MAX) {
+    MinStack(): min(INT_MAX) {
         
     }
     
     void push(int x) {
-        if (x < minVal){
-            minVal = x;
+        if (x <= min){
+            // Push second min value for pop()
+            stack.push(min);
+            min = x;
         }
         
-        stack.push_back(x);
+        stack.push(x);
     }
     
     void pop() {
-        int currentMin = minVal;
-        stack.pop_back();
-        if (currentMin <= minVal){
-            minVal = INT_MAX;
-            for (int &val : stack){
-                if (val < minVal){
-                    minVal = val;
-                }
-            }
+        // If pop value is min, update min to second min
+        int pop_value = stack.top();
+        stack.pop();
+
+        if (pop_value == min){
+            min = stack.top();
+            stack.pop();
         }
     }
     
     int top() {
-        return stack.back();
+        return stack.top();
     }
     
     int getMin() {
-        return minVal;
+        return min;
     }
     
 private:
-    vector<int> stack;
-    int minVal;
+    std::stack<int> stack;
+    int min;
 };
 
 /**

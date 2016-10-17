@@ -1,40 +1,34 @@
 public class MinStack {
 
-    ArrayList<Integer> stack;
-    int minVal;
+    Stack<Integer> stack;
+    int min;
 
     /** initialize your data structure here. */
     public MinStack() {
-        this.stack = new ArrayList<Integer>();
-        this.minVal = Integer.MAX_VALUE;
+        this.stack = new Stack<Integer>();
+        this.min = Integer.MAX_VALUE;
     }
     
     public void push(int x) {
-        this.stack.add(x);
-        if (x < this.minVal){
-            this.minVal = x;
+        if (x <= this.min){
+            this.stack.push(min);
+            this.min = x;
         }
+        this.stack.push(x);
     }
     
     public void pop() {
-        int popVal = this.top();
-        this.stack.remove(this.stack.size() - 1);
-        
-        if (popVal <= this.minVal){
-            if (this.stack.isEmpty()){
-                this.minVal = Integer.MAX_VALUE;
-            } else {
-                this.minVal = Collections.min(this.stack);
-            }
+        if (this.stack.pop() == this.min){
+            this.min = this.stack.pop();
         }
     }
     
     public int top() {
-        return this.stack.get(this.stack.size() - 1);
+        return this.stack.peek();
     }
     
     public int getMin() {
-        return this.minVal;
+        return this.min;
     }
 }
 
